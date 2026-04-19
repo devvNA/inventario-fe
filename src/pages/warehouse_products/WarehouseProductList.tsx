@@ -1,9 +1,9 @@
-import { Link, useParams } from "react-router-dom";
-import { useFetchWarehouse } from "../../hooks/useWarehouses";
-import Sidebar from "../../components/Sidebar";
 import React, { useState } from "react";
-import { useFetchProduct } from "../../hooks/useProducts";
+import { Link, useParams } from "react-router-dom";
+import Sidebar from "../../components/Sidebar";
 import UserProfileCard from "../../components/UserProfileCard";
+import { useFetchProduct } from "../../hooks/useProducts";
+import { useFetchWarehouse } from "../../hooks/useWarehouses";
 
 const WarehouseProductList = () => {
   const { id } = useParams<{ id: string }>(); // Get Warehouse ID from URL

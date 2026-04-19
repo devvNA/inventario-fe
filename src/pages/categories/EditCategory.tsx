@@ -1,23 +1,22 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
 import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
-import { useFetchCategory, useUpdateCategory } from "../../hooks/useCategories";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CategoryFormData, categorySchema } from "../../schemas/categorySchema";
-import { AxiosError } from "axios";
-import { ApiErrorResponse } from "../../types/types"; 
 import UserProfileCard from "../../components/UserProfileCard";
+import { useFetchCategory, useUpdateCategory } from "../../hooks/useCategories";
+import { CategoryFormData, categorySchema } from "../../schemas/categorySchema";
+import { ApiErrorResponse } from "../../types/types";
 
 const EditCategory = () => {
   const { id } = useParams<{ id: string }>();
   const { data: category, isPending } = useFetchCategory(Number(id));
   const { mutate: updateCategory, isPending: isUpdating } = useUpdateCategory();
- 
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [imagePreview, setImagePreview] = useState(
-    "/assets/images/icons/gallery-grey.svg"
+    "/assets/images/icons/gallery-grey.svg",
   );
 
   // ✅ React Hook Form Setup
@@ -37,9 +36,8 @@ const EditCategory = () => {
       setValue("name", category.name);
       setValue("tagline", category.tagline);
 
-       
       if (category.photo) {
-        setImagePreview(category.photo);  
+        setImagePreview(category.photo);
       }
     }
   }, [category, setValue]);
@@ -62,7 +60,7 @@ const EditCategory = () => {
             });
           }
         },
-      }
+      },
     );
   };
 
@@ -140,10 +138,11 @@ const EditCategory = () => {
                   <img
                     id="Thumbnail"
                     src={imagePreview}
-                    className="size-14 object-contain"
+                    className="object-cover"
                     alt="icon"
                   />
                   <input
+                    title="Upload Photo"
                     type="file"
                     id="File-Input"
                     ref={fileInputRef}
@@ -155,7 +154,7 @@ const EditCategory = () => {
                         setImagePreview(URL.createObjectURL(file)); // ✅ update preview
                       } else {
                         setImagePreview(
-                          "/assets/images/icons/gallery-grey.svg"
+                          "/assets/images/icons/gallery-grey.svg",
                         ); // fallback
                       }
                     }}
@@ -222,9 +221,7 @@ const EditCategory = () => {
               )}
 
               <div className="flex items-center justify-end gap-4">
-              <Link to={'/categories'}
-                  className="btn btn-red font-semibold"
-                >
+                <Link to={"/categories"} className="btn btn-red font-semibold">
                   Cancel
                 </Link>
                 <button type="submit" className="btn btn-primary font-semibold">

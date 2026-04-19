@@ -1,14 +1,28 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
-import { useFetchMerchants } from "../../hooks/useMerchants";
 import UserProfileCard from "../../components/UserProfileCard";
-import React from "react";
+import { useFetchMerchants } from "../../hooks/useMerchants";
+import LoadingState from "../../components/LoadingState";
 
 const MerchantList = () => {
-  const { data: merchants, isPending, isError, error } = useFetchMerchants(); // ✅ Use `isPending`
+  const { data: merchants, isPending, isError, error } = useFetchMerchants();
 
-  if (isPending) return <p>Loading merchants...</p>;
-  if (isError) return <p className="text-red-500">Error: {error.message}</p>;
+  if (isError)
+    return (
+      <div className="flex h-screen items-center justify-center bg-monday-background">
+        <div className="bg-white p-8 rounded-3xl shadow-lg text-center max-w-md border border-red-100">
+          <div className="bg-red-50 size-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
+             <img src="/assets/images/icons/close-circle-black.svg" className="size-8 opacity-50 contrast-125" alt="error" />
+          </div>
+          <h2 className="text-xl font-bold text-monday-black mb-2">Fetch Failed</h2>
+          <p className="text-monday-gray mb-6">Error fetching merchants: {error.message}</p>
+          <button onClick={() => window.location.reload()} className="btn btn-black w-full">
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
 
   return (
     <div id="main-container" className="flex flex-1">
@@ -58,6 +72,9 @@ const MerchantList = () => {
           <UserProfileCard />
         </div>
         <main className="flex flex-col gap-6 flex-1">
+          {isPending ? (
+            <LoadingState />
+          ) : (
           <section
             id="Products"
             className="flex flex-col gap-6 flex-1 rounded-3xl p-[18px] px-0 bg-white"
@@ -74,7 +91,7 @@ const MerchantList = () => {
                     alt="icon"
                   />
                   <span className="font-semibold text-2xl">
-                    {merchants.length} Total Merchants
+                    {merchants?.length || 0} Total Merchants
                   </span>
                 </p>
                 <p className="font-semibold text-lg text-monday-gray">
@@ -99,7 +116,7 @@ const MerchantList = () => {
                 <p className="font-semibold text-xl">All Merchants</p>
               </div>
 
-              {merchants.length > 0 ? (
+              {merchants && merchants.length > 0 ? (
                 <div className="flex flex-col gap-5">
                   {merchants.map((merchant) => (
                     <React.Fragment key={merchant.id}>
@@ -108,7 +125,7 @@ const MerchantList = () => {
                           <div className="flex size-[86px] rounded-2xl bg-monday-background items-center justify-center overflow-hidden">
                             <img
                               src={merchant.photo}
-                              className="size-full object-contain"
+                              className="object-contain"
                               alt="icon"
                             />
                           </div>
@@ -175,6 +192,7 @@ const MerchantList = () => {
               )}
             </div>
           </section>
+          )}
         </main>
       </div>
     </div>

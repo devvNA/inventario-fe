@@ -1,21 +1,20 @@
-import Sidebar from "../../components/Sidebar";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import Sidebar from "../../components/Sidebar";
+import UserProfileCard from "../../components/UserProfileCard";
+import { useCreateCategory } from "../../hooks/useCategories";
 import { CategoryFormData, categorySchema } from "../../schemas/categorySchema";
 import { ApiErrorResponse } from "../../types/types";
-import { AxiosError } from "axios";
-import { useCreateCategory } from "../../hooks/useCategories";
-import { Link,   } from "react-router-dom"; 
-import { useRef, useState } from "react";
-import UserProfileCard from "../../components/UserProfileCard";
 
 const AddCategory = () => {
   const { mutate: createCategory, isPending } = useCreateCategory(); // ✅ Use `isPending`
- 
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [imagePreview, setImagePreview] = useState(
-    "/assets/images/icons/gallery-grey.svg"
+    "/assets/images/icons/gallery-grey.svg",
   );
 
   // ✅ React Hook Form Setup
@@ -128,10 +127,11 @@ const AddCategory = () => {
                   <img
                     id="Thumbnail"
                     src={imagePreview}
-                    className="size-14 object-contain"
+                    className="object-contain"
                     alt="icon"
                   />
                   <input
+                    title="Upload Photo"
                     type="file"
                     id="File-Input"
                     ref={fileInputRef}
@@ -143,7 +143,7 @@ const AddCategory = () => {
                         setImagePreview(URL.createObjectURL(file)); // ✅ update preview
                       } else {
                         setImagePreview(
-                          "/assets/images/icons/gallery-grey.svg"
+                          "/assets/images/icons/gallery-grey.svg",
                         ); // fallback
                       }
                     }}
@@ -210,9 +210,7 @@ const AddCategory = () => {
               )}
 
               <div className="flex items-center justify-end gap-4">
-                <Link to={'/categories'}
-                  className="btn btn-red font-semibold"
-                >
+                <Link to={"/categories"} className="btn btn-red font-semibold">
                   Cancel
                 </Link>
                 <button type="submit" className="btn btn-primary font-semibold">

@@ -3,6 +3,7 @@ import Sidebar from "../../components/Sidebar";
 import { useFetchProduct, useFetchProducts } from "../../hooks/useProducts";
 import React, { useState } from "react"; 
 import UserProfileCard from "../../components/UserProfileCard";
+import LoadingState from "../../components/LoadingState";
 
 const ProductList = () => { 
   const { data: products, isPending, isError, error } = useFetchProducts();
@@ -11,10 +12,20 @@ const ProductList = () => {
   );
   const { data: selectedProduct } = useFetchProduct(selectedProductId || 0);
   
-  if (isPending) return <p>Loading products...</p>;
   if (isError)
     return (
-      <p className="text-red-500">Error fetching products: {error.message}</p>
+      <div className="flex h-screen items-center justify-center bg-monday-background">
+        <div className="bg-white p-8 rounded-3xl shadow-lg text-center max-w-md border border-red-100">
+          <div className="bg-red-50 size-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
+             <img src="/assets/images/icons/close-circle-black.svg" className="size-8 opacity-50 contrast-125" alt="error" />
+          </div>
+          <h2 className="text-xl font-bold text-monday-black mb-2">Fetch Failed</h2>
+          <p className="text-monday-gray mb-6">Error fetching products: {error.message}</p>
+          <button onClick={() => window.location.reload()} className="btn btn-black w-full">
+            Try Again
+          </button>
+        </div>
+      </div>
     );
 
   return (
@@ -66,6 +77,9 @@ const ProductList = () => {
             <UserProfileCard />
           </div>
           <main className="flex flex-col gap-6 flex-1">
+            {isPending ? (
+              <LoadingState />
+            ) : (
             <section
               id="Products"
               className="flex flex-col gap-6 flex-1 rounded-3xl p-[18px] px-0 bg-white"
@@ -185,6 +199,7 @@ const ProductList = () => {
                 )}
               </div>
             </section>
+            )}
           </main>
         </div>
       </div>

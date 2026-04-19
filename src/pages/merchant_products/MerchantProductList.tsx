@@ -4,6 +4,7 @@ import Sidebar from "../../components/Sidebar";
 import React, { useState } from "react";
 import { useFetchProduct } from "../../hooks/useProducts";
 import UserProfileCard from "../../components/UserProfileCard";
+import LoadingState from "../../components/LoadingState";
 
 const MerchantProductList = () => {
   const { id } = useParams<{ id: string }>(); // Get Merchant ID from URL
@@ -13,9 +14,6 @@ const MerchantProductList = () => {
     null
   );
   const { data: selectedProduct } = useFetchProduct(selectedProductId || 0);
-
-  if (!merchant) return <p> merchant not found...</p>;
-  if (isPending) return <p>Loading merchant products...</p>;
 
   return (
     <>
@@ -76,6 +74,14 @@ const MerchantProductList = () => {
             <UserProfileCard />
           </div>
           <main className="flex flex-col gap-6 flex-1">
+            {isPending ? (
+              <LoadingState />
+            ) : !merchant ? (
+              <div className="flex bg-white rounded-3xl p-[18px] flex-1 items-center justify-center">
+                <p className="font-semibold text-monday-gray text-lg">Merchant not found.</p>
+              </div>
+            ) : (
+            <>
             <section
               id="Warehouse-Info"
               className="flex items-center justify-between rounded-3xl p-[18px] gap-3 bg-white"
@@ -240,6 +246,8 @@ const MerchantProductList = () => {
                 )}
               </div>
             </section>
+            </>
+            )}
           </main>
         </div>
       </div>
