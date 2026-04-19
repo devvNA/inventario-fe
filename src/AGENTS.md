@@ -364,7 +364,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 ```typescript
 // src/api/axiosConfig.ts - GOOD: Centralized config
 const apiClient = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true, // Send cookies (Sanctum sessions)
   headers: {
     Accept: "application/json",
@@ -376,7 +376,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(async (config) => {
   if (config.url?.includes("/login") || config.url?.includes("/register")) {
     // Fetch CSRF token before login attempt
-    await axios.get("http://localhost:8000/sanctum/csrf-cookie", {
+    await axios.get(import.meta.env.VITE_SANCTUM_CSRF_URL, {
       withCredentials: true,
     });
   }
