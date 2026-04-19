@@ -20,7 +20,10 @@ export const authService = {
 
   login: async (email: string, password: string): Promise<User> => {
     try {
-      const { data } = await apiClient.post("/login", { email, password });
+      const { data } = await apiClient.post("/token-login", {
+        email,
+        password,
+      });
       return { ...data.user, token: data.token, roles: data.user.roles ?? [] };
     } catch (error) {
       if (error instanceof AxiosError) {

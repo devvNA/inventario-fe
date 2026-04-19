@@ -1,6 +1,6 @@
 import { JSX, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth"; 
+import { useAuth } from "../hooks/useAuth";
 
 interface ProtectedRouteProps {
   children: JSX.Element;
@@ -12,7 +12,6 @@ const ProtectedRoute = ({ children, roles }: ProtectedRouteProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-
     if (loading) return; // Prevent redirect while loading user data
     if (!user) {
       navigate("/login", { replace: true });
@@ -27,7 +26,11 @@ const ProtectedRoute = ({ children, roles }: ProtectedRouteProps) => {
   // }
 
   // 🚀 Only render children when authentication is ready
-  if (loading || !user || (roles && !user.roles?.some((role) => roles.includes(role)))) {
+  if (
+    loading ||
+    !user ||
+    (roles && !user.roles?.some((role) => roles.includes(role)))
+  ) {
     return null;
   }
 
