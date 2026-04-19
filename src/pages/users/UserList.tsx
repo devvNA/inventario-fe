@@ -1,19 +1,12 @@
 import { Link } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
-import { useFetchUsers, useDeleteUser } from "../../hooks/useUsers";
-import { User } from "../../types/types";
+import { useFetchUsers } from "../../hooks/useUsers";
+
 import UserProfileCard from "../../components/UserProfileCard";
 import React from "react";
 
 const UserList = () => {
   const { data: users, isPending } = useFetchUsers();
-  const { mutate: deleteUser } = useDeleteUser();
-
-  const handleDelete = (id: number) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      deleteUser(id);
-    }
-  };
 
   if (!users) return <p>not found users...</p>;
   if (isPending) return <p>Loading users...</p>;
@@ -117,9 +110,7 @@ const UserList = () => {
                             />
                           </div>
                           <div className="flex flex-col gap-2 flex-1">
-                            <p className="font-semibold text-xl">
-                              {user.name}
-                            </p>
+                            <p className="font-semibold text-xl">{user.name}</p>
                             <p className="flex items-center gap-1 font-medium text-lg text-monday-gray">
                               <img
                                 src="assets/images/icons/call-grey.svg"
@@ -143,11 +134,12 @@ const UserList = () => {
                               User Role:
                             </p>
                             <p className="font-semibold text-lg text-nowrap">
-                            {user.roles?.join(", ") || "No Role"}
+                              {user.roles?.join(", ") || "No Role"}
                             </p>
                           </div>
                         </div>
-                        <Link to={`/users/edit/${user.id}`}
+                        <Link
+                          to={`/users/edit/${user.id}`}
                           className="btn btn-black min-w-[130px] font-semibold"
                         >
                           <img
