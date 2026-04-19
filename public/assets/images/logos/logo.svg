@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <!-- Background with rounded corners -->
+  <rect width="400" height="400" rx="90" fill="#111827"/>
+  
+  <!-- Isometric Box representing Inventory/Warehouse -->
+  <g transform="translate(100, 100)">
+    <!-- Base Hexagon Structure -->
+    <path d="M100 20 L25 60 L25 140 L100 180 L175 140 L175 60 Z" fill="#4f46e5" stroke="#ffffff" stroke-width="14" stroke-linejoin="round"/>
+    
+    <!-- Inner lines defining the 3D box -->
+    <path d="M100 20 L100 100 M25 60 L100 100 L175 60" stroke="#ffffff" stroke-width="14" stroke-linejoin="round"/>
+    
+    <!-- Accent element representing a green check/data point -->
+    <circle cx="100" cy="100" r="16" fill="#10b981" stroke="#111827" stroke-width="4"/>
+  </g>
+</svg>
