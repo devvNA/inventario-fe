@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const SANCTUM_CSRF_URL = import.meta.env.VITE_SANCTUM_CSRF_URL;
+// const SANCTUM_CSRF_URL = import.meta.env.VITE_SANCTUM_CSRF_URL;
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -20,7 +20,7 @@ apiClient.interceptors.request.use(async (config) => {
     config.url?.includes("/token-login") ||
     config.url?.includes("/register")
   ) {
-    await axios.get(SANCTUM_CSRF_URL, {
+    await axios.get(API_BASE_URL, {
       withCredentials: true,
       withXSRFToken: true,
     });
