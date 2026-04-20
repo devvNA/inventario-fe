@@ -20,7 +20,7 @@ export const authService = {
 
   login: async (email: string, password: string): Promise<User> => {
     try {
-      const { data } = await apiClient.post("/token-login", {
+      const { data } = await apiClient.post("/login", {
         email,
         password,
       });

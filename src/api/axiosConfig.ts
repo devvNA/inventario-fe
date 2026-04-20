@@ -17,7 +17,7 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(async (config) => {
   // Ensure CSRF token is fetched before login/register
   if (
-    config.url?.includes("/token-login") ||
+    config.url?.includes("/login") ||
     config.url?.includes("/register")
   ) {
     await axios.get(API_BASE_URL, {
