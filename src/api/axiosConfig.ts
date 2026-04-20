@@ -19,6 +19,7 @@ export const setStoredAuthToken = (token: string) => {
   }
 
   window.localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token);
+  apiClient.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
 export const clearStoredAuthToken = () => {
@@ -27,6 +28,7 @@ export const clearStoredAuthToken = () => {
   }
 
   window.localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
+  delete apiClient.defaults.headers.common.Authorization;
 };
 
 const apiClient = axios.create({
@@ -38,6 +40,12 @@ const apiClient = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+const initialToken = getStoredAuthToken();
+
+if (initialToken) {
+  apiClient.defaults.headers.common.Authorization = `Bearer ${initialToken}`;
+}
 
 // ✅ Interceptor to Ensure CSRF Token is Sent
 apiClient.interceptors.request.use(async (config) => {

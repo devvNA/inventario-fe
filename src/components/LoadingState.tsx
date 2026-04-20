@@ -6,13 +6,17 @@ export const LoadingState = () => {
         <div className="absolute size-full rounded-full border-4 border-monday-border opacity-20"></div>
         <div className="absolute size-full rounded-full border-t-4 border-monday-blue animate-spin"></div>
         <div className="absolute size-16 rounded-full border-b-4 border-monday-lime-green animate-spin [animation-direction:reverse] [animation-duration:1.5s]"></div>
-        
+
         {/* Icon in center */}
         <div className="bg-white size-12 rounded-2xl flex items-center justify-center shadow-sm z-10">
-          <img src="/assets/images/icons/buildings-2-black.svg" className="size-6 opacity-80" alt="loading" />
+          <img
+            src="/assets/images/icons/buildings-2-black.svg"
+            className="size-6 opacity-80"
+            alt="loading"
+          />
         </div>
       </div>
-      
+
       <div className="mt-10 text-center space-y-3">
         <h2 className="text-2xl font-bold text-monday-black tracking-tight">
           Preparing Data

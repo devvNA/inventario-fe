@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import { ApiErrorResponse, CreateTransactionPayload, CreateTransactionResponse, Transaction } from "../types/types";
 import { useTransaction } from "../context/TransactionContext"; 
 import { useNavigate } from "react-router-dom"; 
+import { useAuth } from "./useAuth";
 
 
 // for keeper store
@@ -53,6 +54,8 @@ export const useCreateTransaction = () => {
 export const useFetchMerchantTransactions = (
   options?: Partial<UseQueryOptions<Transaction[], AxiosError>>
 ) => {
+  const { user, loading } = useAuth();
+
   return useQuery<Transaction[], AxiosError>({
     queryKey: ["my-merchant/transactions"],
     queryFn: async () => {
@@ -60,6 +63,7 @@ export const useFetchMerchantTransactions = (
       return response.data.data;
     },
     retry: false, 
+    enabled: !loading && !!user && (options?.enabled ?? true),
     ...options,
   });
 };  
@@ -77,11 +81,15 @@ export const useFetchMerchantTransactions = (
   }; 
 
   export const useFetchAllTransactions = () => {
+    const { user, loading } = useAuth();
+
     return useQuery<Transaction[], AxiosError>({
       queryKey: ["all-transactions"],
       queryFn: async () => {
         const response = await apiClient.get("/transactions");
         return response.data;
       },
+      retry: false,
+      enabled: !loading && !!user,
     });
   };

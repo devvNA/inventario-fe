@@ -11,7 +11,7 @@ const Sidebar = () => {
     setOpenAccordions((prev) =>
       prev.includes(label)
         ? prev.filter((item) => item !== label)
-        : [...prev, label]
+        : [...prev, label],
     );
   };
 
@@ -123,15 +123,11 @@ const Sidebar = () => {
   return (
     <aside className="relative flex h-auto w-[280px] shrink-0 bg-white">
       <div className="flex flex-col fixed top-0 w-[280px] shrink-0 h-screen pt-[30px] px-4 gap-[30px]">
-        <img
-          src="/assets/images/logos/logo.png"
-          className="w-fit"
-          alt="logo"
-        />
+        <img src="/assets/images/logos/logo.png" className="w-fit" alt="logo" />
         <div className="flex flex-col gap-5 overflow-y-scroll hide-scrollbar h-full overscroll-contain">
           {sidebarMenus.map((section) => {
             const visibleItems = section.items.filter((item) =>
-              item.roles?.some((r) => userRoles.includes(r))
+              item.roles?.some((r) => userRoles.includes(r)),
             );
 
             if (visibleItems.length === 0) return null;
@@ -166,8 +162,9 @@ const Sidebar = () => {
                             </p>
                             <img
                               src="/assets/images/icons/arrow-circle-up.svg"
-                              className={`size-6 transition-300 ${isOpen ? "rotate-180" : ""
-                                }`}
+                              className={`size-6 transition-300 ${
+                                isOpen ? "rotate-180" : ""
+                              }`}
                               alt="icon"
                             />
                           </button>
@@ -187,8 +184,9 @@ const Sidebar = () => {
                                   return (
                                     <li
                                       key={child.label}
-                                      className={`group ${isChildActive ? "active" : ""
-                                        }`}
+                                      className={`group ${
+                                        isChildActive ? "active" : ""
+                                      }`}
                                     >
                                       <Link
                                         to={child.path}
@@ -197,32 +195,36 @@ const Sidebar = () => {
                                         <div className="relative flex size-6 shrink-0">
                                           <img
                                             src={child.iconBlack}
-                                            className={`size-6 absolute ${isChildActive
-                                              ? "opacity-0"
-                                              : "opacity-100"
-                                              } transition-300`}
+                                            className={`size-6 absolute ${
+                                              isChildActive
+                                                ? "opacity-0"
+                                                : "opacity-100"
+                                            } transition-300`}
                                             alt="icon"
                                           />
                                           <img
                                             src={child.iconBlue}
-                                            className={`size-6 absolute ${isChildActive
-                                              ? "opacity-100"
-                                              : "opacity-0"
-                                              } transition-300`}
+                                            className={`size-6 absolute ${
+                                              isChildActive
+                                                ? "opacity-100"
+                                                : "opacity-0"
+                                            } transition-300`}
                                             alt="icon"
                                           />
                                         </div>
                                         <p
-                                          className={`font-medium transition-300 w-full ${isChildActive
-                                            ? "text-monday-blue"
-                                            : ""
-                                            }`}
+                                          className={`font-medium transition-300 w-full ${
+                                            isChildActive
+                                              ? "text-monday-blue"
+                                              : ""
+                                          }`}
                                         >
                                           {child.label}
                                         </p>
                                         <div
-                                          className={`w-2 h-9 shrink-0 rounded-l-xl bg-monday-blue hidden ${isChildActive ? "flex" : ""
-                                            } transition-300`}
+                                          className={`w-2 h-9 shrink-0 rounded-l-xl bg-monday-blue hidden ${
+                                            isChildActive ? "flex" : ""
+                                          } transition-300`}
                                         ></div>
                                       </Link>
                                     </li>
@@ -247,26 +249,30 @@ const Sidebar = () => {
                           <div className="relative flex size-6 shrink-0">
                             <img
                               src={item.iconBlack}
-                              className={`size-6 absolute ${isActive ? "opacity-0" : "opacity-100"
-                                } transition-300`}
+                              className={`size-6 absolute ${
+                                isActive ? "opacity-0" : "opacity-100"
+                              } transition-300`}
                               alt="icon"
                             />
                             <img
                               src={item.iconBlue}
-                              className={`size-6 absolute ${isActive ? "opacity-100" : "opacity-0"
-                                } transition-300`}
+                              className={`size-6 absolute ${
+                                isActive ? "opacity-100" : "opacity-0"
+                              } transition-300`}
                               alt="icon"
                             />
                           </div>
                           <p
-                            className={`font-medium transition-300 w-full ${isActive ? "text-monday-blue" : ""
-                              }`}
+                            className={`font-medium transition-300 w-full ${
+                              isActive ? "text-monday-blue" : ""
+                            }`}
                           >
                             {item.label}
                           </p>
                           <div
-                            className={`w-2 h-9 shrink-0 rounded-l-xl bg-monday-blue hidden ${isActive ? "flex" : ""
-                              } transition-300`}
+                            className={`w-2 h-9 shrink-0 rounded-l-xl bg-monday-blue hidden ${
+                              isActive ? "flex" : ""
+                            } transition-300`}
                           ></div>
                         </Link>
                       </li>

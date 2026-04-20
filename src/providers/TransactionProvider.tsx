@@ -39,14 +39,21 @@ const TransactionProvider = ({ children }: TransactionProviderProps) => {
   }, [cart]);
 
   const clearTransaction = () => {
-    setTransaction({ merchantId: merchant?.id || 0, name: "", phone: "", products: [] });
+    setTransaction({
+      merchantId: merchant?.id || 0,
+      name: "",
+      phone: "",
+      products: [],
+    });
     setCart([]);
     localStorage.removeItem("transactionData");
     localStorage.removeItem("cartData");
   };
 
   return (
-    <TransactionContext.Provider value={{ transaction, setTransaction, cart, setCart, clearTransaction }}>
+    <TransactionContext.Provider
+      value={{ transaction, setTransaction, cart, setCart, clearTransaction }}
+    >
       {children}
     </TransactionContext.Provider>
   );
