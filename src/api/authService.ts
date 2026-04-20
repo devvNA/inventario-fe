@@ -1,4 +1,7 @@
-import apiClient from "./axiosConfig";
+import apiClient, {
+  clearStoredAuthToken,
+  setStoredAuthToken,
+} from "./axiosConfig";
 import { User } from "../types/types";
 import { AxiosError } from "axios";
 // import Cookies from "js-cookie"; // ✅ Import js-cookie
@@ -10,6 +13,10 @@ export const authService = {
       return { ...data, roles: data.roles ?? [] }; // ✅ Ensure roles exist
     } catch (error) {
       if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          clearStoredAuthToken();
+        }
+
         throw new Error(error.response?.data?.message || "Error fetching user.");
       }
       throw new Error("Unexpected error. Please try again.");
@@ -22,8 +29,17 @@ export const authService = {
         "/login",
         { email, password },
       ); 
+
+      if (data.token) {
+        setStoredAuthToken(data.token);
+      } else {
+        clearStoredAuthToken();
+      }
+
       return { ...data.user, token: data.token, roles: data.user.roles ?? [] };
     } catch (error) {
+      clearStoredAuthToken();
+
       if (error instanceof AxiosError) {
         throw new Error(error.response?.data?.message || "Invalid credentials.");
       }
@@ -31,13 +47,13 @@ export const authService = {
     }
   }, 
 
-    logout: async (): Promise<void> => {
-      try {
-        await apiClient.post("/logout");
-        
-        window.location.href = "/login";
-      } catch (error) {
-        console.error("Logout failed", error);
-      }
-    },
+  logout: async (): Promise<void> => {
+    try {
+      await apiClient.post("/logout");
+    } catch (error) {
+      console.error("Logout failed", error);
+    } finally {
+      clearStoredAuthToken();
+    }
+  },
 };
